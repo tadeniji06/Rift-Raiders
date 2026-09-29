@@ -200,7 +200,7 @@ export class MainScene extends Phaser.Scene {
     // Player attacks Enemies (Goblins)
     this.physics.add.overlap(this.player.attackHitbox, this.goblins, (_hitbox, enemy) => {
       if (this.player.getIsAttacking()) {
-        const dmg = 25;
+        const dmg = 45; // Buffed from 25
         const enemySprite = enemy as Phaser.Physics.Arcade.Sprite & { takeDamage: (dmg: number) => void, lastAttackTime: number, entityType: string };
         if (enemySprite.entityType === 'goblin') {
           enemySprite.takeDamage(dmg);
@@ -214,7 +214,7 @@ export class MainScene extends Phaser.Scene {
     // Player attacks Enemies (Boss)
     this.physics.add.overlap(this.player.attackHitbox, this.boss, (_hitbox, enemy) => {
       if (this.player.getIsAttacking()) {
-        const dmg = 25;
+        const dmg = 45; // Buffed from 25
         const enemySprite = enemy as Phaser.Physics.Arcade.Sprite & { takeDamage: (dmg: number) => void, lastAttackTime: number, entityType: string };
         if (enemySprite.entityType === 'boss') {
           enemySprite.takeDamage(dmg);
@@ -232,8 +232,8 @@ export class MainScene extends Phaser.Scene {
         if (enemySprite.entityType === 'goblin') {
           if (now - enemySprite.lastAttackTime > 1000) { // 1 sec cooldown
             enemySprite.lastAttackTime = now;
-            this.player.takeDamage(10);
-            showDamageNumber(this.player.x, this.player.y, 10, '#ef4444');
+            this.player.takeDamage(5); // Nerfed from 10
+            showDamageNumber(this.player.x, this.player.y, 5, '#ef4444');
             this.cameras.main.shake(150, 0.005);
             this.cancelExtraction(); // Interrupt extraction!
           }
@@ -248,8 +248,8 @@ export class MainScene extends Phaser.Scene {
         if (enemySprite.entityType === 'boss') {
           if (now - enemySprite.lastAttackTime > 1500) { // 1.5 sec cooldown
             enemySprite.lastAttackTime = now;
-            this.player.takeDamage(30); // Boss hits much harder
-            showDamageNumber(this.player.x, this.player.y, 30, '#ef4444');
+            this.player.takeDamage(15); // Nerfed from 30
+            showDamageNumber(this.player.x, this.player.y, 15, '#ef4444');
             this.cameras.main.shake(250, 0.01);
             this.cancelExtraction();
           }
@@ -310,7 +310,7 @@ export class MainScene extends Phaser.Scene {
     this.time.delayedCall(5500,  () => showTooltip('attack',  ['[ ATTACK ]',     'Press SPACE to swing at nearby enemies.', 'You deal 25 damage per hit.']));
     this.time.delayedCall(10000, () => showTooltip('dodge',   ['[ DODGE ROLL ]', 'Press SHIFT while moving to dash.', 'You are invincible during the roll!']));
     this.time.delayedCall(16000, () => showTooltip('loot',    ['[ LOOT ]',       'Enemies drop items when killed.', 'Walk over them to collect.']));
-    this.time.delayedCall(22000, () => showTooltip('extract', ['[ EXTRACTION ]', 'Find the BLUE BEACON zone on the map.', 'Stand inside for 5 seconds to escape safely.', 'Getting hit will cancel the extraction!']));
+    this.time.delayedCall(22000, () => showTooltip('extract', ['[ EXTRACTION ]', 'Find the BLUE BEACON zone on the map.', 'Stand inside for 4 seconds to escape safely.', 'Getting hit will cancel the extraction!']));
     this.time.delayedCall(32000, () => showTooltip('pvp',     ['[ WARNING ]',    'Other players are in this zone.', 'They can kill you and take your loot.', 'Decide: push further, or extract now?']));
 
     this.connectToServer();
@@ -385,12 +385,12 @@ export class MainScene extends Phaser.Scene {
 
   private startExtraction() {
     this.isExtracting = true;
-    let countdown = 8; // Made extraction harder (8 seconds)
+    let countdown = 4; // Made extraction easier (4 seconds)
     
     // Spawn ambush!
     const exX = this.extractionZone.x;
     const exY = this.extractionZone.y;
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) { // Only 1 goblin ambush
         const angle = Math.random() * Math.PI * 2;
         const goblin = new Goblin(this, exX + Math.cos(angle) * 350, exY + Math.sin(angle) * 350);
         goblin.setTarget(this.player);
@@ -401,7 +401,7 @@ export class MainScene extends Phaser.Scene {
     
     this.extractionTimer = this.time.addEvent({
       delay: 1000,
-      repeat: 7,
+      repeat: 3,
       callback: () => {
         countdown--;
         exText.setPosition(this.player.x, this.player.y - 40);

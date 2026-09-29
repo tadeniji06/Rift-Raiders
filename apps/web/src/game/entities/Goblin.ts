@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 
 export class Goblin extends Phaser.Physics.Arcade.Sprite {
-  public health: number = 50;
-  private speed: number = 100;
+  public health: number = 30; // Reduced for ease
+  private speed: number = 70; // Reduced for ease
   private target: Phaser.Physics.Arcade.Sprite | null = null;
   private aiState: 'IDLE' | 'CHASE' | 'DEAD' = 'IDLE';
   public lastAttackTime: number;

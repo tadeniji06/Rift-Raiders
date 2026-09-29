@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 
 export class RiftWarden extends Phaser.Physics.Arcade.Sprite {
-  public health: number = 500;
-  public maxHealth: number = 500;
-  private speed: number = 75;
+  public health: number = 200; // Reduced for ease
+  public maxHealth: number = 200;
+  private speed: number = 40; // Reduced for ease
   private target: Phaser.Physics.Arcade.Sprite | null = null;
   private aiState: 'IDLE' | 'CHASE' | 'PHASE_2' | 'DEAD' = 'IDLE';
   public lastAttackTime: number;
@@ -65,7 +65,7 @@ export class RiftWarden extends Phaser.Physics.Arcade.Sprite {
 
   private enterPhase2() {
     this.isEnraged = true;
-    this.speed = 150; // Moves faster
+    this.speed = 80; // Moves faster but not too fast
     this.setTint(0xef4444); // Turns red
     
     // Create an enrage shockwave effect

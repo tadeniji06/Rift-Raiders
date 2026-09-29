@@ -70,14 +70,12 @@ export function Onboarding({ onComplete }: Props) {
   const progressPct = ((step) / (STEPS.length - 1)) * 100;
 
   return (
-    <div style={{
-      minHeight: '100vh',
+    <div className="onboarding-layout" style={{
       background: 'radial-gradient(ellipse at 60% 0%, rgba(34,197,94,0.08) 0%, var(--bg-primary) 60%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '2rem',
     }}>
       {/* Progress bar */}
       <div style={{ width: '100%', maxWidth: 640, marginBottom: '2rem' }}>

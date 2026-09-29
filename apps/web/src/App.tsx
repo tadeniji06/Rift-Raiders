@@ -62,8 +62,8 @@ function Login() {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'radial-gradient(circle at center, #0a1f12 0%, #050a06 100%)' }}>
-      <div className="glass-panel" style={{ padding: '3rem', width: '100%', maxWidth: '450px' }}>
+    <div className="login-layout" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'radial-gradient(circle at center, #0a1f12 0%, #050a06 100%)' }}>
+      <div className="glass-panel login-panel">
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <Activity size={48} color="var(--accent-primary)" style={{ margin: '0 auto 1rem' }} />
           <h1 className="glowing-text" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>RIFT RAIDERS</h1>
@@ -74,11 +74,11 @@ function Login() {
           <input type="email" placeholder="Operator Email" value={email} onChange={e => setEmail(e.target.value)} />
           <input type="password" placeholder="Passcode" value={password} onChange={e => setPassword(e.target.value)} />
           
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-            <button onClick={() => handleAuth(false)} disabled={loading} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexWrap: 'wrap' }}>
+            <button onClick={() => handleAuth(false)} disabled={loading} style={{ flex: '1 1 120px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
               LOGIN <ChevronRight size={18} />
             </button>
-            <button className="secondary" onClick={() => handleAuth(true)} disabled={loading} style={{ flex: 1 }}>
+            <button className="secondary" onClick={() => handleAuth(true)} disabled={loading} style={{ flex: '1 1 120px' }}>
               REGISTER
             </button>
           </div>
@@ -89,8 +89,8 @@ function Login() {
             <div style={{ flex: 1, height: '1px', background: 'var(--border-color)' }}></div>
           </div>
 
-          <button onClick={handleWeb3Login} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: '#1a1a1a', color: '#fff', border: '1px solid #333' }}>
-            <Fingerprint size={18} color="var(--accent-primary)" /> CONNECT WEB3 WALLET (ETH)
+          <button onClick={handleWeb3Login} disabled={loading} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: '#1a1a1a', color: '#fff', border: '1px solid #333', fontSize: 'clamp(0.7rem, 3vw, 0.85rem)' }}>
+            <Fingerprint size={18} color="var(--accent-primary)" /> CONNECT WEB3 WALLET
           </button>
         </div>
       </div>

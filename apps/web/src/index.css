@@ -320,10 +320,16 @@ input:focus {
 }
 
 /* Lobby responsive */
-.lobby-layout {
+.lobby-layout, .onboarding-layout, .login-layout {
   padding: 1rem;
   min-height: 100vh;
   background: var(--bg-primary);
+}
+
+.login-panel {
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 450px;
 }
 
 .lobby-header {
@@ -365,8 +371,11 @@ input:focus {
   .container {
     padding: 2rem 2.5rem;
   }
-  .lobby-layout {
+  .lobby-layout, .onboarding-layout, .login-layout {
     padding: 2rem 2.5rem;
+  }
+  .login-panel {
+    padding: 3rem;
   }
   .lobby-grid {
     grid-template-columns: 2fr 1fr;

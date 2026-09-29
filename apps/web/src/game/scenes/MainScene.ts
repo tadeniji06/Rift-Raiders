@@ -316,7 +316,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   async connectToServer() {
-    const client = new Colyseus.Client('ws://localhost:2567');
+    // Connect to the production Railway backend (note: wss:// for secure websocket)
+    const client = new Colyseus.Client('wss://rift-raiders-production.up.railway.app');
     
     try {
       this.room = await client.joinOrCreate<ArenaState>('arena');

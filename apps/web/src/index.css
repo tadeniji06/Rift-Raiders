@@ -66,7 +66,7 @@ body {
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem 2.5rem;
+  padding: 1rem; /* Mobile first padding */
 }
 
 /* ===========================
@@ -362,6 +362,9 @@ input:focus {
 }
 
 @media (min-width: 1024px) {
+  .container {
+    padding: 2rem 2.5rem;
+  }
   .lobby-layout {
     padding: 2rem 2.5rem;
   }
@@ -387,8 +390,9 @@ input:focus {
     border-radius: 8px;
   }
 
-  /* Hide secondary loot details on tiny screens */
+  /* Hide secondary loot details and zone title on tiny screens to save space */
   .loot-detail { display: none; }
+  .arena-header h2 { display: none; }
 
   /* Onboarding: compress cards */
   .onboarding-step-card {

@@ -170,8 +170,8 @@ function Lobby() {
 
   // LOBBY
   return (
-    <div className="container">
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border-color)' }}>
+    <div className="container lobby-layout">
+      <header className="lobby-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <Activity size={32} color="var(--accent-primary)" />
           <div>

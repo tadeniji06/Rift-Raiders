@@ -295,7 +295,8 @@ export class MainScene extends Phaser.Scene {
         })
       );
 
-      const container = this.add.container(camW / 2 - boxW / 2, camH - boxH - 24, [bg, ...texts]);
+      // Position higher up to avoid covering mobile joystick (160px from bottom)
+      const container = this.add.container(camW / 2 - boxW / 2, camH - boxH - 160, [bg, ...texts]);
       container.setScrollFactor(0).setDepth(100).setAlpha(0);
 
       this.tweens.add({ targets: container, alpha: 1, duration: 300 });

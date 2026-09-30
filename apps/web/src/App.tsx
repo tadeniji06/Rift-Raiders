@@ -169,107 +169,177 @@ function Lobby() {
   }
 
   // LOBBY
+  const totalItems = inventory.length;
+  const highValue = inventory.filter(i => i.item_name.includes('Legendary') || i.item_name.includes('Epic')).length;
+
   return (
-    <div className="container lobby-layout">
-      <header className="lobby-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Activity size={32} color="var(--accent-primary)" />
-          <div>
-            <h2 className="glowing-text" style={{ margin: 0, color: 'var(--accent-primary)' }}>COMMAND CENTER</h2>
-            <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-              OPERATOR: <strong style={{ color: 'var(--text-primary)' }}>{character.name}</strong> | CLASS: <span style={{ textTransform: 'uppercase', color: character.class_type === 'rogue' ? '#7c3aed' : '#166534', fontWeight: 'bold' }}>{character.class_type}</span> | LVL: {character.level}
+    <div className="min-h-screen bg-rift-bg text-rift-textWarm font-rajdhani selection:bg-rift-primary selection:text-black flex flex-col">
+      {/* Top Nav */}
+      <header className="border-b border-rift-primary/20 bg-rift-surface/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-3">
+              <Activity size={24} className="text-rift-primary drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+              <h1 className="text-2xl font-bold text-rift-primary tracking-widest drop-shadow-[0_0_12px_rgba(34,197,94,0.3)]">RIFT RAIDERS</h1>
             </div>
+            <nav className="hidden md:flex gap-6 text-sm tracking-widest font-semibold text-rift-textMuted">
+              <a href="#" className="text-rift-primary border-b-2 border-rift-primary py-5">COMMAND CENTER</a>
+              <button onClick={() => setShowLeaderboard(!showLeaderboard)} className="hover:text-rift-textWarm transition-colors py-5 uppercase">
+                {showLeaderboard ? 'Hide Leaderboard' : 'Leaderboard'}
+              </button>
+            </nav>
           </div>
-        </div>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <ThemeToggle />
-          <button className="secondary" onClick={() => setShowLeaderboard(!showLeaderboard)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Trophy size={16} /> {showLeaderboard ? 'HIDE LEADERBOARD' : 'LEADERBOARD'}
-          </button>
-          <button className="secondary" onClick={() => supabase.auth.signOut()} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <LogOut size={16} /> DISCONNECT
-          </button>
+          <div className="flex items-center gap-4">
+             <div className="text-right hidden sm:block">
+               <div className="text-sm font-bold leading-tight">{character.name}</div>
+               <div className="text-[10px] text-rift-primary tracking-widest uppercase">Lvl {character.level} {character.class_type}</div>
+             </div>
+             <div className="h-8 w-px bg-rift-primary/20"></div>
+             <ThemeToggle />
+             <button onClick={() => supabase.auth.signOut()} className="text-rift-textMuted hover:text-rarity-mythic transition-colors" title="Disconnect">
+               <LogOut size={20} />
+             </button>
+          </div>
         </div>
       </header>
 
-      {showLeaderboard && (
-        <section style={{ marginBottom: '3rem' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Trophy size={20} /> GLOBAL LEADERBOARD (XP)</h3>
-          <div className="glass-panel" style={{ padding: '1rem' }}>
-            {leaderboard.map((player, index) => (
-              <div key={player.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 1rem', borderBottom: index < leaderboard.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
-                <span style={{ color: index === 0 ? '#d97706' : index === 1 ? '#64748b' : index === 2 ? '#b45309' : 'var(--text-primary)', fontWeight: 'bold' }}>
-                  #{index + 1} {player.name}
-                </span>
-                <span style={{ color: 'var(--text-muted)' }}>LVL {player.level} | {player.xp} XP</span>
-              </div>
-            ))}
-            {leaderboard.length === 0 && <span style={{ color: 'var(--text-muted)' }}>No ranked operators yet.</span>}
-          </div>
-        </section>
-      )}
-
-      <section style={{ marginBottom: '3rem' }}>
-        <h3 style={{ marginBottom: '1rem', color: 'var(--text-secondary)' }}>YOUR STASH</h3>
-        <div className="glass-panel" style={{ padding: '1rem', minHeight: '100px', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          {inventory.length === 0 ? (
-            <span style={{ color: 'var(--text-muted)' }}>Stash is empty. Extract items from the arena!</span>
-          ) : (
-            inventory.map(item => (
-              <div key={item.id} style={{ padding: '0.5rem 1rem', background: 'var(--bg-primary)', border: '1px solid var(--border-color)', borderRadius: '4px' }}>
-                <span style={{ color: item.item_name.includes('Legendary') ? '#d97706' : item.item_name.includes('Epic') ? '#7c3aed' : '#475569' }}>
-                  {item.item_name}
-                </span>
-              </div>
-            ))
-          )}
-        </div>
-      </section>
-      
-      <section>
-        <h3 style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Available Arenas</h3>
+      {/* Main Layout */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-          {MOCK_ARENAS.map(arena => (
-            <div key={arena.id} className="glass-panel" style={{ 
-              padding: '2rem',
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'relative',
-              overflow: 'hidden',
-              opacity: arena.status === 'ACTIVE' ? 1 : 0.5,
-              borderColor: arena.status === 'ACTIVE' ? 'var(--accent-primary)' : 'var(--border-color)',
-              boxShadow: arena.status === 'ACTIVE' ? '0 0 20px rgba(34,197,94,0.1)' : 'none'
-            }}>
-              
-              {arena.status === 'ACTIVE' && (
-                <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--accent-primary)', color: '#000', fontSize: '0.75rem', fontWeight: 700, padding: '0.25rem 0.75rem', borderBottomLeftRadius: '8px' }}>
-                  ACTIVE ZONES
+        {/* Left Column (Player & Stash) */}
+        <div className="lg:col-span-4 space-y-8">
+           {/* Player Card */}
+           <div className="bg-rift-surface border border-rift-primary/20 rounded-xl p-7 relative overflow-hidden group shadow-lg">
+             <div className="absolute top-0 left-0 w-1 h-full bg-rift-primary group-hover:shadow-[0_0_15px_#22c55e] transition-shadow"></div>
+             <h3 className="text-xs tracking-widest text-rift-textMuted uppercase mb-4 flex items-center gap-2">
+               <Fingerprint size={14} className="text-rift-primary" /> Operator Status
+             </h3>
+             <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-rift-primary/20 to-transparent border border-rift-primary/30 rounded-lg flex items-center justify-center text-3xl font-bold text-rift-primary shadow-[0_0_10px_rgba(34,197,94,0.1)]">
+                  {character.name.charAt(0)}
                 </div>
-              )}
+                <div>
+                  <div className="text-2xl font-bold tracking-wide">{character.name}</div>
+                  <div className="text-sm font-mono text-rift-primary uppercase font-bold tracking-wider">{character.class_type}</div>
+                </div>
+             </div>
+             
+             {/* Stats */}
+             <div className="grid grid-cols-2 gap-3">
+                <div className="bg-black/40 p-3 rounded-lg border border-rift-primary/10 hover:border-rift-primary/30 transition-colors">
+                  <div className="text-[10px] text-rift-textMuted tracking-widest uppercase mb-1">XP Level</div>
+                  <div className="text-lg font-mono font-semibold">{character.level}</div>
+                </div>
+                <div className="bg-black/40 p-3 rounded-lg border border-rift-primary/10 hover:border-rarity-legendary/40 transition-colors">
+                  <div className="text-[10px] text-rift-textMuted tracking-widest uppercase mb-1">High Value</div>
+                  <div className="text-lg font-mono font-semibold text-rarity-legendary">{highValue}</div>
+                </div>
+             </div>
+           </div>
 
-              <h4 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                {arena.name}
-                {arena.status !== 'ACTIVE' && <Lock size={16} color="var(--text-muted)" />}
-              </h4>
+           {/* Stash */}
+           <div className="bg-rift-surface border border-rift-primary/20 rounded-xl p-7 shadow-lg flex flex-col h-[450px]">
+              <div className="flex justify-between items-center mb-6">
+                 <h3 className="text-xs tracking-widest text-rift-textMuted uppercase">Secured Stash</h3>
+                 <span className="text-xs font-mono text-rift-textMuted bg-black/40 px-2 py-1 rounded">{inventory.length} Items</span>
+              </div>
               
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '2rem', flex: 1, lineHeight: 1.5 }}>
-                {arena.description}
-              </p>
-              
-              {arena.status === 'ACTIVE' ? (
-                <button onClick={() => navigate(`/arena/${arena.id}?class=${character.class_type}`)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%' }}>
-                  <Play size={16} /> DEPLOY
-                </button>
-              ) : (
-                <button disabled style={{ width: '100%' }}>
-                  OFFLINE
-                </button>
-              )}
-            </div>
-          ))}
+              <div className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-rift-primary/20 scrollbar-track-transparent">
+                {inventory.length === 0 ? (
+                  <div className="h-full flex flex-col items-center justify-center text-center text-rift-textMuted text-sm">
+                    <Lock size={32} className="mb-2 opacity-50" />
+                    Stash is empty.<br/>Survive the rift to secure loot.
+                  </div>
+                ) : (
+                  inventory.map(item => {
+                    const isLeg = item.item_name.includes('Legendary');
+                    const isEpic = item.item_name.includes('Epic');
+                    const color = isLeg ? 'text-rarity-legendary border-rarity-legendary/50' : isEpic ? 'text-rarity-epic border-rarity-epic/50' : 'text-rarity-common border-rarity-common/30';
+                    const bg = isLeg ? 'bg-rarity-legendary/10 hover:bg-rarity-legendary/20' : isEpic ? 'bg-rarity-epic/10 hover:bg-rarity-epic/20' : 'bg-white/5 hover:bg-white/10';
+                    const glow = isLeg ? 'shadow-[0_0_8px_#f59e0b]' : isEpic ? 'shadow-[0_0_8px_#a855f7]' : '';
+                    
+                    return (
+                      <div key={item.id} className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-default ${bg} ${color}`}>
+                        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isLeg ? 'bg-rarity-legendary' : isEpic ? 'bg-rarity-epic' : 'bg-rarity-common'} ${glow}`}></div>
+                        <div className="font-mono text-sm truncate font-semibold tracking-tight">{item.item_name}</div>
+                      </div>
+                    )
+                  })
+                )}
+              </div>
+           </div>
         </div>
-      </section>
+
+        {/* Right Column (Arenas) */}
+        <div className="lg:col-span-8 space-y-12">
+          {showLeaderboard && (
+             <div className="bg-rift-surface border border-rarity-legendary/30 rounded-xl p-8 shadow-[0_0_30px_rgba(245,158,11,0.05)] animate-in fade-in slide-in-from-top-4">
+               <h3 className="text-lg text-rarity-legendary font-bold tracking-widest flex items-center gap-2 mb-4"><Trophy size={20}/> GLOBAL LEADERBOARD</h3>
+               <div className="space-y-1">
+                 {leaderboard.map((p, i) => (
+                   <div key={p.id} className="flex justify-between items-center p-3 hover:bg-white/5 rounded transition-colors border-b border-white/5 last:border-0">
+                     <div className="flex gap-4 items-center">
+                        <span className={`font-mono text-lg font-bold ${i===0?'text-rarity-legendary':i===1?'text-gray-300':i===2?'text-orange-700':'text-rift-textMuted'}`}>#{i+1}</span>
+                        <span className="font-bold text-lg tracking-wide">{p.name}</span>
+                     </div>
+                     <div className="text-sm font-mono text-rift-textMuted bg-black/40 px-3 py-1 rounded">LVL {p.level} • <span className="text-white">{p.xp} XP</span></div>
+                   </div>
+                 ))}
+                 {leaderboard.length === 0 && <div className="text-rift-textMuted font-mono">No operators ranked yet.</div>}
+               </div>
+             </div>
+          )}
+
+          <h2 className="text-sm tracking-widest text-rift-textMuted uppercase mb-4 flex items-center gap-2">
+            <Activity size={16} className="text-rift-primary" /> Active Deployment Zones
+          </h2>
+          
+          {/* Hero Arena: NEAR Launchpad */}
+          <div className="relative rounded-2xl overflow-hidden border border-rift-primary/30 group shadow-2xl transition-all duration-300 hover:border-rift-primary">
+             {/* Background Effects */}
+             <div className="absolute inset-0 bg-gradient-to-br from-rift-primary/20 via-[#0a150a] to-black z-0"></div>
+             <div className="absolute top-0 right-0 w-96 h-96 bg-rift-primary/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-rift-primary/20 transition-all duration-700"></div>
+             
+             <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+                <div className="max-w-xl">
+                  <div className="inline-block px-3 py-1 bg-rift-primary text-black text-xs font-bold tracking-widest mb-4 rounded shadow-[0_0_15px_rgba(34,197,94,0.5)] uppercase">
+                    Live Zone
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg tracking-tight">NEAR LAUNCHPAD</h2>
+                  <p className="text-rift-textWarm/80 text-lg mb-6 leading-relaxed font-medium">An abandoned magical launch facility built around a volatile Rift. Extreme PvPvE combat zone.</p>
+                  
+                  <div className="flex flex-wrap gap-4 text-sm font-mono text-rift-textMuted">
+                    <div className="flex items-center gap-2 bg-black/60 border border-white/5 px-3 py-1.5 rounded-lg font-semibold"><Activity size={16} className="text-rift-primary"/> PvPvE</div>
+                    <div className="flex items-center gap-2 bg-black/60 border border-white/5 px-3 py-1.5 rounded-lg font-semibold text-rarity-legendary">RISK: HIGH</div>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => navigate(`/arena/near-launchpad?class=${character.class_type}`)}
+                  className="w-full md:w-auto px-10 py-5 bg-rift-primary hover:bg-[#4ade80] text-black font-bold text-xl tracking-widest rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] group/btn"
+                >
+                  <Play fill="currentColor" className="group-hover/btn:scale-110 transition-transform" /> DEPLOY NOW
+                </button>
+             </div>
+          </div>
+
+          <h2 className="text-sm tracking-widest text-rift-textMuted uppercase pt-6 mb-4 border-t border-rift-primary/10">Classified Sectors (Locked)</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+             {MOCK_ARENAS.filter(a => a.id !== 'near-launchpad').map(arena => (
+               <div key={arena.id} className="bg-rift-surface/40 border border-rift-primary/10 rounded-xl p-5 relative overflow-hidden opacity-50 hover:opacity-80 transition-opacity">
+                 <div className="flex items-center justify-between mb-3">
+                   <h4 className="font-bold text-lg text-white tracking-wide">{arena.name}</h4>
+                   <Lock size={16} className="text-rift-textMuted" />
+                 </div>
+                 <p className="text-sm text-rift-textMuted mb-6 line-clamp-2 leading-relaxed">{arena.description}</p>
+                 <div className="text-[10px] tracking-widest text-rift-primary font-mono bg-rift-primary/10 inline-block px-2 py-1 rounded font-bold uppercase">COMING SOON</div>
+               </div>
+             ))}
+          </div>
+
+        </div>
+      </main>
     </div>
   );
 }

@@ -132,15 +132,32 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.isAttacking = true;
     this.canAttack = false;
 
-    // Visual feedback for attack (swipe)
-    const swipe = this.scene.add.rectangle(this.attackHitbox.x, this.attackHitbox.y, 40, 40, 0xffffff, 0.8);
-    this.scene.tweens.add({
-      targets: swipe,
-      alpha: 0,
-      scale: 1.5,
-      duration: 200,
+    // Visual feedback for attack (actual swing effect)
+    const angleOffset = Math.atan2(this.lastFacingDirection.y, this.lastFacingDirection.x);
+    const swingColor = this.playerClass === 'rogue' ? 0xa855f7 : 0x22c55e;
+    
+    // Create a crescent slash using graphics
+    const slash = this.scene.add.graphics();
+    slash.setPosition(this.x, this.y);
+    slash.lineStyle(4, swingColor, 1);
+    slash.beginPath();
+    slash.arc(0, 0, 45, angleOffset - 1.5, angleOffset - 1.5, false); // Start as a point
+    slash.strokePath();
+
+    this.scene.tweens.addCounter({
+      from: 0,
+      to: 3, // Sweep across 3 radians (approx 170 degrees)
+      duration: 150,
+      onUpdate: (tween) => {
+        const sweep = tween.getValue();
+        slash.clear();
+        slash.lineStyle(6, swingColor, 1 - (sweep / 3)); // Fade out as it sweeps
+        slash.beginPath();
+        slash.arc(0, 0, 45, angleOffset - 1.5, angleOffset - 1.5 + sweep, false);
+        slash.strokePath();
+      },
       onComplete: () => {
-        swipe.destroy();
+        slash.destroy();
         this.isAttacking = false;
       }
     });

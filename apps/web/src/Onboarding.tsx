@@ -70,108 +70,97 @@ export function Onboarding({ onComplete }: Props) {
   const progressPct = ((step) / (STEPS.length - 1)) * 100;
 
   return (
-    <div className="onboarding-layout" style={{
-      background: 'radial-gradient(ellipse at 60% 0%, rgba(34,197,94,0.08) 0%, var(--bg-primary) 60%)',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
+    <div className="min-h-screen bg-rift-bg text-rift-textWarm font-rajdhani selection:bg-rift-primary selection:text-black flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Effect */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rift-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
       {/* Progress bar */}
-      <div style={{ width: '100%', maxWidth: 640, marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+      <div className="w-full max-w-2xl mb-12 relative z-10">
+        <div className="flex justify-between mb-4">
           {STEPS.map((s, i) => (
-            <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: '50%',
-                background: i <= step ? 'var(--accent-primary)' : 'var(--border-color)',
-                color: i <= step ? '#fff' : 'var(--text-muted)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.75rem', fontWeight: 700, transition: 'all 0.3s',
-              }}>
-                {i < step ? <Check size={14} /> : i + 1}
+            <div key={s.id} className="flex items-center gap-2">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${i <= step ? 'bg-rift-primary text-black shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-rift-surface border border-rift-primary/20 text-rift-textMuted'}`}>
+                {i < step ? <Check size={16} /> : i + 1}
               </div>
-              <span style={{ fontSize: '0.75rem', color: i <= step ? 'var(--accent-primary)' : 'var(--text-muted)', fontWeight: i === step ? 700 : 400 }}>
+              <span className={`text-sm hidden sm:block ${i <= step ? 'text-rift-primary font-bold tracking-widest' : 'text-rift-textMuted font-medium tracking-wide'}`}>
                 {s.label}
               </span>
             </div>
           ))}
         </div>
-        <div style={{ height: 4, background: 'var(--border-color)', borderRadius: 999 }}>
-          <div style={{ width: `${progressPct}%`, height: '100%', background: 'var(--accent-primary)', borderRadius: 999, transition: 'width 0.4s ease' }} />
+        <div className="h-1.5 bg-rift-surface border border-rift-primary/10 rounded-full overflow-hidden">
+          <div className="h-full bg-rift-primary transition-all duration-500 ease-out shadow-[0_0_10px_rgba(34,197,94,0.5)]" style={{ width: `${progressPct}%` }} />
         </div>
       </div>
 
       {/* Card */}
-      <div className="glass-panel fade-in" style={{ padding: '3rem', width: '100%', maxWidth: 640 }} key={step}>
+      <div className="w-full max-w-2xl bg-rift-surface/80 backdrop-blur-md border border-rift-primary/20 rounded-2xl p-8 md:p-12 shadow-2xl relative z-10 animate-in fade-in slide-in-from-bottom-4" key={step}>
 
         {/* ── STEP 0: WELCOME ── */}
         {step === 0 && (
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ marginBottom: '1.5rem' }}>
-              <Activity size={56} color="var(--accent-primary)" style={{ filter: 'drop-shadow(0 0 12px rgba(34,197,94,0.5))' }} />
+          <div className="text-center">
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-rift-primary/20 to-transparent border border-rift-primary/30 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(34,197,94,0.15)]">
+                <Activity size={40} className="text-rift-primary drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+              </div>
             </div>
-            <h1 className="glowing-text" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>RIFT RAIDERS</h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem', marginBottom: '2rem', lineHeight: 1.6 }}>
-              A top-down <strong>PvPvE extraction RPG</strong>.<br />
-              Loot. Fight. Extract. Or die trying.
+            <h1 className="text-5xl md:text-6xl font-bold text-white tracking-tight drop-shadow-lg mb-4">RIFT RAIDERS</h1>
+            <p className="text-rift-textMuted text-lg mb-8 leading-relaxed max-w-lg mx-auto">
+              A highly tactical <strong>PvPvE extraction RPG</strong>.<br />
+              Loot. Fight. Extract. Or lose everything.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+            <div className="flex flex-wrap gap-4 justify-center mb-10">
               {[
-                { icon: <Target size={20} />, label: 'PvP Combat' },
-                { icon: <Shield size={20} />, label: 'AI Enemies' },
-                { icon: <Archive size={20} />, label: 'Loot System' },
-                { icon: <Zap size={20} />, label: 'Live Multiplayer' },
+                { icon: <Target size={18} />, label: 'PvP Combat' },
+                { icon: <Shield size={18} />, label: 'AI Enemies' },
+                { icon: <Archive size={18} />, label: 'Loot System' },
+                { icon: <Zap size={18} />, label: 'Multiplayer' },
               ].map(f => (
-                <div key={f.label} style={{
-                  display: 'flex', alignItems: 'center', gap: '0.5rem',
-                  padding: '0.5rem 1rem', background: 'var(--accent-soft)',
-                  borderRadius: 999, border: '1px solid var(--border-strong)',
-                  color: 'var(--accent-primary)', fontWeight: 600, fontSize: '0.85rem'
-                }}>
+                <div key={f.label} className="flex items-center gap-2 px-4 py-2 bg-black/40 border border-rift-primary/20 rounded-full text-rift-primary font-bold text-sm tracking-wide">
                   {f.icon} {f.label}
                 </div>
               ))}
             </div>
-            <button onClick={next} style={{ fontSize: '1rem', padding: '0.85rem 2.5rem' }}>
-              ENTER THE RIFT <ArrowRight size={18} />
+            <button onClick={next} className="bg-rift-primary hover:bg-green-400 text-black px-10 py-4 rounded-xl font-bold text-lg tracking-widest flex items-center gap-3 mx-auto transition-all hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+              ENTER THE RIFT <ArrowRight size={20} />
             </button>
+            <div className="flex items-center justify-center gap-2 mt-8 p-4 bg-rarity-legendary/10 border border-rarity-legendary/30 rounded-xl text-rarity-legendary text-sm">
+              <AlertTriangle size={18} /> <strong>DISCLAIMER:</strong> Play on a desktop browser for the best experience.
+            </div>
           </div>
         )}
 
         {/* ── STEP 1: THE LOOP ── */}
         {step === 1 && (
           <div>
-            <h2 style={{ marginBottom: '0.5rem', color: 'var(--accent-primary)' }}>HOW TO SURVIVE</h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.5 }}>
-              Every expedition follows the same loop — but the tension is always different.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
+            <h2 className="text-2xl font-bold text-rift-primary tracking-widest mb-2">HOW TO SURVIVE</h2>
+            <p className="text-rift-textMuted mb-8 text-lg">Every expedition follows the same loop — but the tension is always different.</p>
+            
+            <div className="space-y-4 mb-10">
               {[
-                { num: '01', icon: <Target size={14} />,        title: 'DEPLOY',          desc: 'Drop into a live arena with real players and AI enemies.',                        color: '#22c55e' },
-                { num: '02', icon: <Sword size={14} />,         title: 'EXPLORE & FIGHT', desc: 'Kill Goblins for loot. Defeat the Rift Warden for legendary drops.',             color: '#3b82f6' },
-                { num: '03', icon: <AlertTriangle size={14} />, title: 'DECIDE',          desc: 'More loot = more risk. Other players can kill you and steal everything.',       color: '#f59e0b' },
-                { num: '04', icon: <MapPin size={14} />,        title: 'EXTRACT OR DIE',  desc: 'Reach the blue beacon zone. Hold it for 5 seconds to escape with your loot.', color: '#22c55e' },
-                { num: '05', icon: <Star size={14} />,          title: 'PROGRESS',        desc: 'Extracted loot goes to your permanent stash. Earn XP, level up.',              color: '#a855f7' },
+                { num: '01', icon: <Target size={16} />,        title: 'DEPLOY',          desc: 'Drop into a live arena with real players and AI enemies.',                        color: 'text-rift-primary' },
+                { num: '02', icon: <Sword size={16} />,         title: 'EXPLORE & FIGHT', desc: 'Kill Goblins for loot. Defeat the Rift Warden for legendary drops.',             color: 'text-rarity-rare' },
+                { num: '03', icon: <AlertTriangle size={16} />, title: 'DECIDE',          desc: 'More loot = more risk. Other players can kill you and steal everything.',       color: 'text-rarity-legendary' },
+                { num: '04', icon: <MapPin size={16} />,        title: 'EXTRACT OR DIE',  desc: 'Reach the blue beacon zone. Hold it for 4 seconds to escape with your loot.', color: 'text-rift-primary' },
+                { num: '05', icon: <Star size={16} />,          title: 'PROGRESS',        desc: 'Extracted loot goes to your permanent stash. Earn XP, level up.',              color: 'text-rarity-epic' },
               ].map(step => (
-                <div key={step.num} style={{
-                  display: 'flex', gap: '1rem', alignItems: 'flex-start',
-                  padding: '1rem 1.25rem', background: 'var(--bg-primary)',
-                  borderRadius: 8, border: '1px solid var(--border-color)',
-                }}>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: step.color, fontFamily: 'JetBrains Mono, monospace', minWidth: 36 }}>{step.num}</div>
+                <div key={step.num} className="flex gap-4 items-start p-4 bg-black/40 border border-white/5 rounded-xl hover:border-white/10 transition-colors">
+                  <div className={`text-2xl font-black font-mono mt-1 ${step.color}`}>{step.num}</div>
                   <div>
-                    <div style={{ fontWeight: 700, marginBottom: '0.2rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <span style={{ color: step.color }}>{step.icon}</span> {step.title}
+                    <div className="font-bold text-white flex items-center gap-2 mb-1 tracking-wide">
+                      <span className={step.color}>{step.icon}</span> {step.title}
                     </div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>{step.desc}</div>
+                    <div className="text-sm text-rift-textMuted leading-relaxed">{step.desc}</div>
                   </div>
                 </div>
               ))}
             </div>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button className="secondary" onClick={back}>BACK</button>
-              <button onClick={next} style={{ flex: 1 }}>CHOOSE CLASS <ArrowRight size={16} /></button>
+            <div className="flex gap-4">
+              <button className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold tracking-widest transition-colors" onClick={back}>BACK</button>
+              <button onClick={next} className="flex-1 bg-rift-primary hover:bg-green-400 text-black px-8 py-4 rounded-xl font-bold text-lg tracking-widest flex items-center justify-center gap-3 transition-all">
+                CHOOSE CLASS <ArrowRight size={20} />
+              </button>
             </div>
           </div>
         )}
@@ -179,61 +168,62 @@ export function Onboarding({ onComplete }: Props) {
         {/* ── STEP 2: CLASS SELECT ── */}
         {step === 2 && (
           <div>
-            <h2 style={{ marginBottom: '0.5rem', color: 'var(--accent-primary)' }}>SELECT YOUR CLASS</h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>This choice is permanent. Choose wisely, Operator.</p>
-            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
+            <h2 className="text-2xl font-bold text-rift-primary tracking-widest mb-2">SELECT YOUR CLASS</h2>
+            <p className="text-rift-textMuted mb-8 text-lg">This choice is permanent. Choose wisely, Operator.</p>
+            
+            <div className="grid grid-cols-2 gap-4 mb-6">
               {(['vanguard', 'rogue'] as const).map(c => {
                 const d = CLASS_DATA[c];
                 const active = selectedClass === c;
                 return (
-                  <button key={c} onClick={() => setSelectedClass(c)} className="secondary" style={{
-                    flex: 1, padding: '1.25rem', flexDirection: 'column', gap: '0.4rem', alignItems: 'flex-start',
-                    background: active ? d.bgColor : 'transparent',
-                    borderColor: active ? d.color : 'var(--border-color)',
-                    borderWidth: active ? 2 : 1, outline: 'none',
-                    color: 'var(--text-primary)'
-                  }}>
-                    <span style={{ fontWeight: 800, fontSize: '1rem', color: d.color }}>{d.label}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{d.subtitle}</span>
-                    {active && <Check size={16} color={d.color} style={{ alignSelf: 'flex-end' }} />}
+                  <button key={c} onClick={() => setSelectedClass(c)} className={`text-left p-5 rounded-xl border-2 transition-all flex flex-col gap-2 ${active ? 'bg-black/60 shadow-lg' : 'bg-black/20 border-white/10 hover:border-white/20'}`} style={{ borderColor: active ? d.color : undefined }}>
+                    <div className="flex justify-between items-center w-full">
+                      <span className="font-black text-xl tracking-wider" style={{ color: d.color }}>{d.label}</span>
+                      {active && <Check size={20} color={d.color} />}
+                    </div>
+                    <span className="text-xs font-mono text-rift-textMuted uppercase">{d.subtitle}</span>
                   </button>
                 );
               })}
             </div>
 
             {/* Class detail card */}
-            <div style={{ padding: '1.5rem', background: cls.bgColor, borderRadius: 10, border: `1px solid ${cls.borderColor}`, marginBottom: '1.5rem' }}>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.25rem' }}>{cls.description}</p>
+            <div className="p-6 bg-black/40 rounded-xl border border-white/10 mb-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-10 rounded-full blur-2xl" style={{ background: cls.color }}></div>
+              <p className="text-rift-textWarm text-sm leading-relaxed mb-6 relative z-10">{cls.description}</p>
               
               {/* Stat bars */}
-              {([
-                ['HP',     cls.stats.hp],
-                ['SPEED',  cls.stats.speed],
-                ['DAMAGE', cls.stats.damage],
-                ['DODGE',  cls.stats.dodge],
-              ] as [string, number][]).map(([label, val]) => (
-                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.6rem' }}>
-                  <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', width: 52, fontFamily: 'monospace' }}>{label}</span>
-                  <StatBar value={val} color={cls.color} />
-                  <span style={{ fontSize: '0.75rem', color: cls.color, width: 28, textAlign: 'right', fontWeight: 700 }}>{val}</span>
-                </div>
-              ))}
+              <div className="space-y-3 mb-6 relative z-10">
+                {([
+                  ['HP',     cls.stats.hp],
+                  ['SPEED',  cls.stats.speed],
+                  ['DAMAGE', cls.stats.damage],
+                  ['DODGE',  cls.stats.dodge],
+                ] as [string, number][]).map(([label, val]) => (
+                  <div key={label} className="flex items-center gap-4">
+                    <span className="text-[10px] font-bold text-rift-textMuted w-14 font-mono tracking-widest">{label}</span>
+                    <StatBar value={val} color={cls.color} />
+                    <span className="text-xs font-bold w-8 text-right" style={{ color: cls.color }}>{val}</span>
+                  </div>
+                ))}
+              </div>
 
-              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <div style={{ fontSize: '0.82rem', color: cls.color, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Zap size={13} /> <strong>ABILITY:</strong> {cls.ability}
+              <div className="space-y-3 relative z-10 pt-4 border-t border-white/10">
+                <div className="text-sm flex items-start gap-2">
+                  <Zap size={16} className="mt-0.5 shrink-0" style={{ color: cls.color }} />
+                  <div><strong className="tracking-widest uppercase text-[10px] block mb-0.5 text-rift-textMuted">Ability</strong> <span className="text-white font-medium">{cls.ability}</span></div>
                 </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Shield size={13} /> <strong>PASSIVE:</strong> {cls.passive}
+                <div className="text-sm flex items-start gap-2">
+                  <Shield size={16} className="mt-0.5 shrink-0 text-rift-textMuted" />
+                  <div><strong className="tracking-widest uppercase text-[10px] block mb-0.5 text-rift-textMuted">Passive</strong> <span className="text-rift-textMuted">{cls.passive}</span></div>
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{cls.playstyle}</div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button className="secondary" onClick={back}>BACK</button>
-              <button onClick={next} style={{ flex: 1, background: cls.color }}>
-                CONFIRM {cls.label} <ArrowRight size={16} />
+            <div className="flex gap-4">
+              <button className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold tracking-widest transition-colors" onClick={back}>BACK</button>
+              <button onClick={next} className="flex-1 text-black px-8 py-4 rounded-xl font-bold text-lg tracking-widest flex items-center justify-center gap-3 transition-all hover:scale-[1.02]" style={{ background: cls.color, boxShadow: `0 0 20px ${cls.color}40` }}>
+                CONFIRM {cls.label} <ArrowRight size={20} />
               </button>
             </div>
           </div>
@@ -242,56 +232,51 @@ export function Onboarding({ onComplete }: Props) {
         {/* ── STEP 3: NAME ── */}
         {step === 3 && (
           <div>
-            <h2 style={{ marginBottom: '0.5rem', color: 'var(--accent-primary)' }}>NAME YOUR OPERATOR</h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: 1.5 }}>
-              Your callsign appears on the leaderboard and above your character in game.<br />
-              Make it count.
-            </p>
-
-            <div style={{
-              padding: '1.25rem', background: 'var(--bg-primary)', borderRadius: 10,
-              border: `1px solid ${cls.borderColor}`, marginBottom: '2rem',
-              display: 'flex', alignItems: 'center', gap: '1rem'
-            }}>
-              <div style={{ width: 48, height: 48, borderRadius: 8, background: cls.bgColor, border: `1px solid ${cls.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {selectedClass === 'vanguard' ? <Shield size={24} color={cls.color} /> : <Zap size={24} color={cls.color} />}
+            <h2 className="text-2xl font-bold text-rift-primary tracking-widest mb-2">IDENTIFY YOURSELF</h2>
+            <p className="text-rift-textMuted mb-8 text-lg">Your callsign will be visible to all operators in the Rift. Make it count.</p>
+            
+            <div className="mb-8 relative">
+              <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+                <Target size={24} className="text-rift-primary/50" />
               </div>
-              <div>
-                <div style={{ fontWeight: 700, color: cls.color }}>{callsign || 'YOUR_CALLSIGN'}</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{cls.label} · Level 1</div>
+              <input 
+                type="text" 
+                placeholder="Enter Callsign..." 
+                value={callsign} 
+                onChange={e => setCallsign(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g, ''))}
+                onKeyDown={e => e.key === 'Enter' && callsign.trim() && finish()}
+                maxLength={12}
+                autoFocus
+                className="w-full bg-black/60 border-2 border-rift-primary/30 rounded-xl px-14 py-6 text-3xl font-black tracking-widest text-white uppercase outline-none focus:border-rift-primary transition-colors shadow-[inset_0_2px_15px_rgba(0,0,0,0.5)]"
+              />
+              <div className="absolute right-5 bottom-[-28px] text-xs font-mono text-rift-textMuted">
+                {callsign.length}/12 CHARACTERS
               </div>
             </div>
 
-            <input
-              type="text"
-              placeholder="e.g. GHOST, VIPER, NOVA..."
-              value={callsign}
-              maxLength={20}
-              onChange={e => setCallsign(e.target.value.toUpperCase().replace(/[^A-Z0-9_]/g, ''))}
-              onKeyDown={e => e.key === 'Enter' && callsign.trim() && finish()}
-              style={{ marginBottom: '0.5rem', fontFamily: 'JetBrains Mono, monospace', fontSize: '1.1rem', letterSpacing: '0.05em' }}
-            />
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
-              Letters, numbers and underscores only · {20 - callsign.length} characters remaining
+            <div className="p-5 bg-rift-primary/10 border border-rift-primary/20 rounded-xl flex items-start gap-4 mb-10">
+              <Shield size={24} className="text-rift-primary shrink-0 mt-0.5" />
+              <p className="text-sm text-rift-textWarm/80 leading-relaxed font-medium">
+                By deploying, you accept that death in the Rift means losing all unextracted loot. Trust no one.
+              </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button className="secondary" onClick={back}>BACK</button>
-              <button
-                onClick={finish}
+            <div className="flex gap-4">
+              <button className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold tracking-widest transition-colors" onClick={back} disabled={creating}>BACK</button>
+              <button 
+                onClick={finish} 
                 disabled={!callsign.trim() || creating}
-                style={{ flex: 1, background: cls.color }}
+                className={`flex-1 bg-rift-primary text-black px-8 py-4 rounded-xl font-bold text-lg tracking-widest flex items-center justify-center gap-3 transition-all ${!callsign.trim() || creating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-400 hover:scale-[1.02] shadow-[0_0_20px_rgba(34,197,94,0.3)]'}`}
               >
-                {creating ? 'INITIALIZING...' : `DEPLOY AS ${callsign || 'OPERATOR'}`} <ArrowRight size={16} />
+                {creating ? 'INITIALIZING...' : 'INITIALIZE DEPLOYMENT'} <ArrowRight size={20} />
               </button>
             </div>
           </div>
         )}
       </div>
-
       {/* Footer */}
-      <p style={{ marginTop: '1.5rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-        Rift Raiders · Early Access · All data is persistent
+      <p className="mt-8 text-rift-textMuted text-sm font-mono tracking-widest opacity-50 relative z-10">
+        RIFT RAIDERS · VERSION 0.1.0 · ALL ACTIONS ARE LOGGED
       </p>
     </div>
   );

@@ -1,5 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Rajdhani:wght@500;600;700&display=swap');
 
+@import "tailwindcss";
+
+@theme {
+  --color-rift-bg: #050805;
+  --color-rift-surface: #0a100a;
+  --color-rift-surfaceHover: #111a11;
+  --color-rift-primary: #22c55e;
+  --color-rift-primaryGlow: rgba(34, 197, 94, 0.5);
+  --color-rift-secondary: #4d6b4d;
+  --color-rift-textMuted: #9dbf9d;
+  --color-rift-textWarm: #e2f0e2;
+
+  --color-rarity-common: #9ca3af;
+  --color-rarity-uncommon: #22c55e;
+  --color-rarity-rare: #3b82f6;
+  --color-rarity-epic: #a855f7;
+  --color-rarity-legendary: #f59e0b;
+  --color-rarity-mythic: #ef4444;
+
+  --font-rajdhani: "Rajdhani", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
 /* ===========================
    DESIGN TOKENS
    =========================== */
@@ -47,8 +69,6 @@
    =========================== */
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {

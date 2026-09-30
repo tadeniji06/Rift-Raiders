@@ -149,7 +149,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       to: 3, // Sweep across 3 radians (approx 170 degrees)
       duration: 150,
       onUpdate: (tween) => {
-        const sweep = tween.getValue();
+        const sweep = tween.getValue() || 0;
         slash.clear();
         slash.lineStyle(6, swingColor, 1 - (sweep / 3)); // Fade out as it sweeps
         slash.beginPath();

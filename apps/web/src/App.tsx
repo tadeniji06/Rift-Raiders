@@ -169,7 +169,6 @@ function Lobby() {
   }
 
   // LOBBY
-  const totalItems = inventory.length;
   const highValue = inventory.filter(i => i.item_name.includes('Legendary') || i.item_name.includes('Epic')).length;
 
   return (

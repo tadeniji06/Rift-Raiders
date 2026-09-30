@@ -15,7 +15,7 @@ type Arena = { id: string; name: string; status: 'ACTIVE' | 'COMING_SOON'; descr
 
 // --- Mock Data ---
 const MOCK_ARENAS: Arena[] = [
-  { id: 'near-launchpad', name: 'NEAR Launchpad', status: 'ACTIVE', description: 'An abandoned magical launch facility built around a Rift. PvPvE.' },
+  { id: 'near-launchpad', name: 'NEARLY Launchpad', status: 'ACTIVE', description: 'An abandoned magical launch facility built around a Rift. PvPvE.' },
   { id: 'crimson-mines', name: 'Crimson Mines', status: 'COMING_SOON', description: 'Deep underground mines.' },
   { id: 'sunken-city', name: 'Sunken City', status: 'COMING_SOON', description: 'An ancient city submerged in water.' },
   { id: 'the-abyss', name: 'The Abyss', status: 'COMING_SOON', description: 'The darkest depths of the rift.' }
@@ -304,7 +304,7 @@ function Lobby() {
                   <div className="inline-block px-3 py-1 bg-rift-primary text-black text-xs font-bold tracking-widest mb-4 rounded shadow-[0_0_15px_rgba(34,197,94,0.5)] uppercase">
                     Live Zone
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg tracking-tight">NEAR LAUNCHPAD</h2>
+                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg tracking-tight">NEARLY LAUNCHPAD</h2>
                   <p className="text-rift-textWarm/80 text-lg mb-6 leading-relaxed font-medium">An abandoned magical launch facility built around a volatile Rift. Extreme PvPvE combat zone.</p>
                   
                   <div className="flex flex-wrap gap-4 text-sm font-mono text-rift-textMuted">
